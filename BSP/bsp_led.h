@@ -3,14 +3,6 @@
 
 #include "bsp.h"
 
-#ifndef max
-    #define max(a, b) ((a)>(b) ? (a):(b))
-#endif
-
-#ifndef min
-    #define min(a, b) ((a)<(b) ? (a):(b))
-#endif
-
 #define WS2812_FREQ (800000) //800KHz
 #define TIMER_CLOCK_FREQ (8000000)
 #define LED_TIM4_PERIOD (90) // 72MHz/WS2812_FREQ

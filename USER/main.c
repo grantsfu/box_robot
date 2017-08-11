@@ -25,26 +25,44 @@ int main(void)
 /*******
  *@brief Advanced application 
  ******/	
-uint8_t pwm = 240;
-// uint8_t i;
+// uint8_t pwm = 240;
+// // uint8_t i;
 
-for (;;)
-{
-	Motor_Super_Go(forward, pwm);
-	Led_Bright(pwm, 50, 205, 50);
-	Delay_10us(100*500);
+// for (;;)
+// {
+// 	Motor_Super_Go(forward, pwm);
+// 	Led_Bright(pwm, 50, 205, 50);
+// 	Delay_10us(100*500);
 
-	if (pwm > 0)
+// 	if (pwm > 0)
+// 	{
+// 		pwm -= 20;
+// 	}
+// 	else
+// 	{
+// 		pwm = 240;
+// 	}
+// }
+
+// // while (1);
+
+//----------------------------------------------------------------- 
+/*******
+ *@brief Sonar Test
+ ******/
+	float distance = 0;
+
+	Led_Whole_Light(0, 0, 0);
+
+	for (;;)
 	{
-		pwm -= 10;
-	}
-	else
-	{
-		pwm = 240;
-	}
-}
+		distance = Sonar_Measurement();
 
-// while (1);
+		// distance is limited, less than 200
+		Led_Bright((uint8_t)distance, 255, 0, 0);
+
+		// Delay_10us(100*700);
+	}
 //----------------------------------------------------------------- 
 /*******
  *@brief Motor test 

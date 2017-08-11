@@ -1,6 +1,21 @@
 #ifndef _BSP_H
 #define _BSP_H
 
+/************************************************
+ *@brief STM32F103C8T6 resources allocation (PART)
+ *
+ *       Motor: TIM3 channel1 && channel2
+ *       Led: TIM4 DMA1 && DAM4
+ *       Sonar: TIM2 && EXTI4
+ ***********************************************/
+#ifndef max
+    #define max(a, b) ((a)>(b) ? (a):(b))
+#endif
+
+#ifndef min
+    #define min(a, b) ((a)<(b) ? (a):(b))
+#endif
+
 #include  <stdio.h>
 #include  <string.h>
 #include  <ctype.h>
@@ -17,6 +32,7 @@
 #include "bsp_bluetooth.h"
 #include "bsp_mp3.h"
 #include "bsp_motor.h"
+#include "bsp_sonar.h"
 
 #include "bsp_copy.h"
 

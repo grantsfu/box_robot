@@ -103,7 +103,7 @@ static void Motor_GPIO_Init(void)
     GPIO_Init(MOTOR_PORT1, &Motor_PWMB_Config);
     GPIO_Init(MOTOR_PORT1, &Motor_STBY_Config);
 
-    GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE); // Close JTAG and SW, make PA15 as GPIO
+    GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE); // Close JTAG and SW, make PA15 as GPIO
     BKP_TamperPinCmd(DISABLE); // PC13: pin state controlled by BKP register
     Motor_Off();
 }
