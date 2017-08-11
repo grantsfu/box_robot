@@ -16,6 +16,7 @@ void UartSendString ( u8 *str, u8 len, USART_TypeDef* USARTx );
 // u8 Tx_Buffer[] = {"AT+VER\r\n"};
 // u8 Tx_Buffer_LEN;
 // Tx_Buffer_LEN = strlen(Tx_Buffer);
+// extern enum INFRED_DETC {FAR, NEAR};
 
 int main(void)	
 {
@@ -48,21 +49,48 @@ int main(void)
 
 //----------------------------------------------------------------- 
 /*******
- *@brief Sonar Test
+ *@brief ST188_Infrared Test
  ******/
-	float distance = 0;
-
-	Led_Whole_Light(0, 0, 0);
+ 	enum INFRED_DETC left_value, right_value; 
 
 	for (;;)
 	{
-		distance = Sonar_Measurement();
+		left_value = ST_Infrared_Left_DTEC();
+		right_value = ST_Infrared_Right_DTEC();
 
-		// distance is limited, less than 200
-		Led_Bright((uint8_t)distance, 255, 0, 0);
+		if ((left_value == FAR) && (right_value == FAR))
+		{
+			Led_Whole_Light(255, 0, 0);
+		}
+		else if ((left_value == NEAR) || (right_value == NEAR))
+		{
+			Led_Whole_Light(0, 0, 255);
+		}
+		else
+		{
+			Led_Whole_Light(0, 255, 0);
+		}
 
-		// Delay_10us(100*700);
-	}
+		Delay_10us(100*500);
+	} 
+
+//----------------------------------------------------------------- 
+/*******
+ *@brief Sonar Test
+ ******/
+	// float distance = 0;
+
+	// Led_Whole_Light(0, 0, 0);
+
+	// for (;;)
+	// {
+	// 	distance = Sonar_Measurement();
+
+	// 	// distance is limited, less than 200
+	// 	Led_Bright((uint8_t)distance, 255, 0, 0);
+
+	// 	// Delay_10us(100*700);
+	// }
 //----------------------------------------------------------------- 
 /*******
  *@brief Motor test 

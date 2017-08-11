@@ -7,6 +7,9 @@
  *       Motor: TIM3 channel1 && channel2
  *       Led: TIM4 DMA1 && DAM4
  *       Sonar: TIM2 && EXTI4
+ *       PC13,14,15: PC13(out) -> Motor BIN1
+ *                   PC14(in) -> ST_Infrared OUT5 
+ *                   PC14(in) -> ST_Infrared OUT6 
  ***********************************************/
 #ifndef max
     #define max(a, b) ((a)>(b) ? (a):(b))
@@ -15,6 +18,8 @@
 #ifndef min
     #define min(a, b) ((a)<(b) ? (a):(b))
 #endif
+
+typedef enum {false = 0, true} boolean;
 
 #include  <stdio.h>
 #include  <string.h>
@@ -33,6 +38,7 @@
 #include "bsp_mp3.h"
 #include "bsp_motor.h"
 #include "bsp_sonar.h"
+#include "bsp_st_infrared.h"
 
 #include "bsp_copy.h"
 

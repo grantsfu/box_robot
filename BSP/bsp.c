@@ -10,6 +10,7 @@ void BSP_Init(void)
     MP3_Init();
     Motor_Init();
     Sonar_Init();
+    ST_Infrared_Init();
 }
 
 void All_NVIC_Init(void)

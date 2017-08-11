@@ -616,6 +616,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_sonar.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_st_infrared.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_st_infrared.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
