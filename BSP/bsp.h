@@ -4,12 +4,16 @@
 /************************************************
  *@brief STM32F103C8T6 resources allocation (PART)
  *
- *       Motor: TIM3 channel1 && channel2
- *       Led: TIM4 DMA1 && DAM4
+ *       Motor: TIM3_CH1 && TIM3_CH2
+ *       Led: TIM4 && DMA1_CH1 && DMA1_CH4(DMA_Priority_High)
  *       Sonar: TIM2 && EXTI4
  *       PC13,14,15: PC13(out) -> Motor BIN1
  *                   PC14(in) -> ST_Infrared OUT5 
  *                   PC14(in) -> ST_Infrared OUT6 
+ *       ADC1 CH2 && CH3: ADC1_IN2 -> ST_Infrared AOUT5
+ *                        ADC1_IN3 -> ST_Infrared AOUT6
+ *       DMA1_CH1: TIM4_CH1 && ADC1(DMA_Priority_VeryHigh)
+ *                 TODO: exist conflict
  ***********************************************/
 #ifndef max
     #define max(a, b) ((a)>(b) ? (a):(b))

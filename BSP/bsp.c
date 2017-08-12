@@ -70,6 +70,13 @@ void All_NVIC_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
+
+    //----------------------------------------------------------------- 
+    /*******
+     *@brief ST188_Infrared
+     ******/
+    // WS2812 DMA1 part already configs DMA1_Channel1_IRQn
+    // TODO: solve the conflict of DMA1_Channel1_IRQHandler between WS2812 and ST188 Infrared
 }
 
 

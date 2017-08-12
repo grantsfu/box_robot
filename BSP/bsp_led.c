@@ -212,15 +212,15 @@ void Led_Single_Light(uint8_t index, uint8_t red, uint8_t green, uint8_t blue)
 /***************************************
  *@brief NVIC IRQHandler
  **************************************/
-void DMA1_Channel1_IRQHandler()
-{
-    TIM_Cmd(TIM4, DISABLE);
+// void DMA1_Channel1_IRQHandler()
+// {
+//     TIM_Cmd(TIM4, DISABLE);
 
-    TIM_DMACmd(TIM4, TIM_DMA_Update, DISABLE);         
-    DMA_Cmd(DMA1_Channel1, DISABLE);                    
-    DMA_ClearFlag(DMA1_FLAG_TC1);
-    memset((char *)Led_Buffer, 0, LED_BUFFER_SIZE);
-}
+//     TIM_DMACmd(TIM4, TIM_DMA_Update, DISABLE);         
+//     DMA_Cmd(DMA1_Channel1, DISABLE);                    
+//     DMA_ClearFlag(DMA1_FLAG_TC1);
+//     memset((char *)Led_Buffer, 0, LED_BUFFER_SIZE);
+// }
 
 void DMA1_Channel4_IRQHandler()
 {
