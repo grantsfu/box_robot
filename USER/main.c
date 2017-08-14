@@ -52,11 +52,13 @@ int main(void)
  *@brief ST188_Infrared Test
  ******/
  	enum INFRED_DETC left_value, right_value; 
+	st_infrared_adc adc_value; 
 
 	for (;;)
 	{
 		left_value = ST_Infrared_Left_DTEC();
 		right_value = ST_Infrared_Right_DTEC();
+		adc_value = ST_Infrared_ADC_Value_Get();
 
 		if ((left_value == FAR) && (right_value == FAR))
 		{

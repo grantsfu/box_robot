@@ -1,7 +1,9 @@
 #include "bsp_st_infrared.h"
 
-__IO static uint16_t st_infrared_dma_buffer[30][2] = {0};
-__IO static uint16_t st_infrared_filter_data[2] = {0};
+__IO uint16_t st_infrared_dma_buffer[30][2] = {0};
+// __IO static uint16_t st_infrared_filter_data[2] = {0};
+__IO st_infrared_st st_infrared_filter_data;
+// __IO float st_infrared_adc_data[2] = {0};
 
 //----------------------------------------------------------------- 
 /*******
@@ -57,7 +59,7 @@ static ADC_InitTypeDef ST_Infrared_ADC_Config =
     .ADC_ContinuousConvMode = ENABLE,
     .ADC_ExternalTrigConv = ADC_ExternalTrigConv_None, // use software to trig
     .ADC_DataAlign = ADC_DataAlign_Right,
-    .ADC_NbrOfChannel = 2; // CH2 && CH3    
+    .ADC_NbrOfChannel = 2 // CH2 && CH3    
 };
 
 
@@ -97,16 +99,16 @@ static void ST_Infrared_GPIO_Init(void)
     GPIO_Init(ST_INFRARED_AOUT_PORT, &ST_Infrared_AOUT6_Config);
 }
 
-void ST_Infrared_DMA_Init(void)
+static void ST_Infrared_DMA_Init(void)
 {
     DMA_DeInit(ST_INFRARED_DMA_CH);
     DMA_Init(ST_INFRARED_DMA_CH, &ST_Infrared_DMA_Config);
 
     DMA_ITConfig(ST_INFRARED_DMA_CH, DMA_IT_TC, ENABLE);
-    DMA_Cmd(ST_INFRARED_DMA_CH, DISABLE);
+    DMA_Cmd(ST_INFRARED_DMA_CH, ENABLE);
 }
 
-void ST_Infrared_ADC_Init(void)
+static void ST_Infrared_ADC_Init(void)
 {
     ADC_Init(ST_INFRARED_ADCX, &ST_Infrared_ADC_Config);
 
@@ -121,13 +123,15 @@ void ST_Infrared_ADC_Init(void)
     ADC_StartCalibration(ST_INFRARED_ADCX);
     while (ADC_GetCalibrationStatus(ST_INFRARED_ADCX));
 
-    ADC_SoftwareStartConvCmd(ST_INFRARED_ADCX, DISABLE); 
+    ADC_SoftwareStartConvCmd(ST_INFRARED_ADCX, ENABLE); 
 }
 
 void ST_Infrared_Init(void)
 {
     ST_Infrared_RCC_Init();
     ST_Infrared_GPIO_Init();
+    ST_Infrared_DMA_Init();
+    ST_Infrared_ADC_Init();
 }
 
 //----------------------------------------------------------------- 
@@ -151,12 +155,15 @@ enum INFRED_DETC ST_Infrared_Right_DTEC(void)
         return NEAR; 
 }
 
-uint16_t* ST_Infrared_ADC_Filter(void)
+/*******
+ *@brief For interrupt function using
+ ******/
+st_infrared_st ST_Infrared_ADC_Filter(void)
 {
     uint16_t sum = 0;
-    uint16_t filter_out[2] = {0};
+    uint16_t filter_out[2] = {0,0};
     uint8_t i = 0, j = 0;
-
+    st_infrared_st filter_struct;
 
     for (j; j<2; j++)
     {
@@ -168,9 +175,30 @@ uint16_t* ST_Infrared_ADC_Filter(void)
         filter_out[j] = sum;
         
         sum = 0;
+        i = 0;
     }
 
-    return filter_out;    
+    memcpy(filter_struct.value, filter_out, sizeof(filter_struct.value));
+
+    return filter_struct;    
+}
+
+/*******
+ *@brief Calculate th value of ADC voltage
+ *       st_infrared_filter_data[0] stores AOUT5, left side sensor
+ *       st_infrared_filter_data[1] stores AOUT6, right side sensor
+ ******/
+st_infrared_adc ST_Infrared_ADC_Value_Get(void)
+{
+    st_infrared_adc adc_data;
+    uint16_t temp_data[2] = {0};
+
+    memcpy(temp_data, st_infrared_filter_data.value, sizeof(st_infrared_filter_data.value));
+
+    *(adc_data.value) = (float)temp_data[0]/30.0;
+    *(adc_data.value+1) = (float)temp_data[1]/30.0;
+
+    return adc_data;
 }
 
 //----------------------------------------------------------------- 
@@ -187,6 +215,5 @@ void DMA1_Channel1_IRQHandler()
         DMA_ClearITPendingBit(DMA1_IT_TC1);
         memset(st_infrared_dma_buffer, 0, ST_INFRARED_DMA_BUFSIZE);
     }
-                       
 }
 

@@ -14,15 +14,28 @@
 #define ADC1_DR_ADDRESS (0x40012400+0x4C) // ADC1->DR
 #define ST_INFRARED_DMA_BUFSIZE (60)
 
-
 enum INFRED_DETC {FAR, NEAR};
+
+typedef struct 
+{
+    uint16_t value[2]; 
+} st_infrared_st;
+
+typedef struct 
+{
+    float value[2]; 
+} st_infrared_adc;
 
 static void ST_Infrared_RCC_Init(void);
 static void ST_Infrared_GPIO_Init(void);
+static void ST_Infrared_DMA_Init(void);
+static void ST_Infrared_ADC_Init(void);
+st_infrared_st ST_Infrared_ADC_Filter(void);
 
 void ST_Infrared_Init(void);
 enum INFRED_DETC ST_Infrared_Left_DTEC(void);
 enum INFRED_DETC ST_Infrared_Right_DTEC(void);
+// float* ST_Infrared_ADC_Value_Get(void);
 
 #endif
 

@@ -1,6 +1,6 @@
 #include "bsp.h"
 
-volatile  uint8_t Led_Buffer[LED_BUFFER_SIZE];
+volatile uint8_t Led_Buffer[LED_BUFFER_SIZE];
 
 /***************************************
  *@brief Parameter config 

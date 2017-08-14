@@ -13,7 +13,7 @@
  *       ADC1 CH2 && CH3: ADC1_IN2 -> ST_Infrared AOUT5
  *                        ADC1_IN3 -> ST_Infrared AOUT6
  *       DMA1_CH1: TIM4_CH1 && ADC1(DMA_Priority_VeryHigh)
- *                 TODO: exist conflict
+ *                 TODO: solve conflict
  ***********************************************/
 #ifndef max
     #define max(a, b) ((a)>(b) ? (a):(b))
